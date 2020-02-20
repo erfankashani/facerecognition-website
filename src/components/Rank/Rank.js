@@ -1,13 +1,18 @@
 import React from 'react';
 
-const Rank = () => {
+const Rank = ( props ) => {
+    console.log(JSON.stringify(props.userInfo, null, 2));
+    console.log(props.userInfo.name);
+    console.log(props.userInfo.entries);
+
+    // const { entries , name} = userInfo;
     return(
         <div>
             <div className='white f3'>
-                {'Erfan, your score is ...'}
+                {` ${props.userInfo.name}, your score is ...`}
             </div>
             <div className='white f1'>
-                {'#5'}
+                {props.userInfo.entries}
             </div>
         </div>
     );
