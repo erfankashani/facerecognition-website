@@ -1,6 +1,6 @@
 {
   "name": "facerecognitionbrain",
-  "homepage": "http://erfankashani.github.io/facerecognition-website",
+  "homepage": "https://erfankashani.github.io/facerecognition-website",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
