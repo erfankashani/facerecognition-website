@@ -1,5 +1,11 @@
 ## This project is a full stack developed app using (React, NodeJS, Postgress). Inside of the website user is able to input image of people and AI facerecognition agent returns the face location on the image. This is simialr to how facebook detects faces and tags names on a photo. 
 
+<hr/>
+
+### DEMO:
+
+![Face Recognition Website Demo](demo.gif)
+
 ### you can look at the website [HERE](https://erfankashani.github.io/facerecognition-website/)
 
 <hr/>
