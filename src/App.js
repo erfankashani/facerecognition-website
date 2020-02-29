@@ -8,11 +8,6 @@ import Register from './components/Register/Register';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Rank from './components/Rank/Rank';
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
-
-const app = new Clarifai.App({
-  apiKey: 'ba1202780d5d42398b992bdbef41f5f3'
-});
 
 const ParticlesOptions = {
   particles: {
@@ -26,11 +21,8 @@ const ParticlesOptions = {
   }
 }
 
-class App extends Component {
-  constructor(){
-    super();
-    this.state = {
-      input: '',
+const initialState = {
+  input: '',
       image_url: '',
       box: {},
       route: 'SignIn',
@@ -42,7 +34,12 @@ class App extends Component {
         entries: 0,
         joined: ''
       }
-    }
+}
+
+class App extends Component {
+  constructor(){
+    super();
+    this.state = initialState;
   }
 
   calculateFaceLocation = (data) => {
@@ -70,35 +67,38 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({image_url: this.state.input});
-    app.models
-      .predict(
-        Clarifai.FACE_DETECT_MODEL,
-        this.state.input)
-      .then(response => {  
-        if(response){
-          console.log(this.state.user);
-          fetch('http://localhost:3002/image', {
-            method: 'put',
-            headers: { 'content-type': 'application/json'},
-            body: JSON.stringify({
-                id: this.state.user.id
-            })
-          }).then( response => response.json())
-          .then(count => {
-            this.setState(Object.assign(this.state.user, {entries: count}))
-          })
-        }  
-
-        return response.outputs[0].data.regions.map(face => {
-          this.displayFaceBox(this.calculateFaceLocation(face.region_info.bounding_box));
-        })
+    fetch('https://smartbrain-back-end.herokuapp.com/imageurl', {
+      method: 'post',
+      headers: { 'content-type': 'application/json'},
+      body: JSON.stringify({
+        input: this.state.input
       })
-    .catch(err => console.log(err));
+    })
+    .then(response => response.json())
+    .then(response => {  
+      if(response){
+        console.log(this.state.user);
+        fetch('https://smartbrain-back-end.herokuapp.com/image', {
+          method: 'put',
+          headers: { 'content-type': 'application/json'},
+          body: JSON.stringify({
+              id: this.state.user.id
+          })
+        }).then( response => response.json())
+        .then(count => {
+          this.setState(Object.assign(this.state.user, {entries: count}))
+        }).catch(err => console.log(err))
+      }  
+
+      return response.outputs[0].data.regions.map(face => {
+        this.displayFaceBox(this.calculateFaceLocation(face.region_info.bounding_box));
+      })
+    }).catch(err => console.log(err));
   }
 
   onRouteChange = (Route) => {
     if (Route === 'SignIn'){
-      this.setState({isSignedIn: false})
+      this.setState(initialState)
     } else if (Route === 'Home') {
       this.setState({isSignedIn: true})
     }
