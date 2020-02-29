@@ -1,10 +1,9 @@
 import React from 'react';
 
 const Rank = ( props ) => {
-    console.log(JSON.stringify(props.userInfo, null, 2));
-    console.log(props.userInfo.name);
-    console.log(props.userInfo.entries);
-
+    // console.log(JSON.stringify(props.userInfo, null, 2));
+    // console.log(props.userInfo.name);
+    // console.log(props.userInfo.entries);
     // const { entries , name} = userInfo;
     return(
         <div>

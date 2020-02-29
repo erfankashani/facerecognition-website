@@ -56,9 +56,7 @@ class App extends Component {
   }
 
   displayFaceBox = (box) => {
-    // console.log(box);
     this.setState({box : box});
-    // console.log(this.state.box);
   }
 
   onInputChange = (event) => {
@@ -77,7 +75,6 @@ class App extends Component {
     .then(response => response.json())
     .then(response => {  
       if(response){
-        console.log(this.state.user);
         fetch('https://smartbrain-back-end.herokuapp.com/image', {
           method: 'put',
           headers: { 'content-type': 'application/json'},
